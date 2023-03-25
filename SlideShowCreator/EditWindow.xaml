@@ -1,0 +1,56 @@
+﻿<Window x:Class="SlideShowCreator.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SlideShowCreator"
+        mc:Ignorable="d"
+        Title="EditWindow" Height="450" Width="800">
+    <Grid Name="ColGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Background="Black"/>
+        <Grid Name="RowGrid1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" Background="Black"/>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="SlideShow Properties Area" Foreground="Red" FontWeight="Bold" />
+                <TextBlock Grid.Row="1" Name="SlideShowNameDisplay" Text="Name: " Foreground="Red" FontWeight="Bold" />
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock Text="Image Properties Area" Foreground="Red" FontWeight="Bold" />
+            </Grid>
+        </Grid>
+        <Grid Name="RowGrid2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" Background="Black"/>
+            <Border Grid.Row="3" Background="Black"/>
+            <Grid Grid.Row="0">
+                <TextBlock Text="Image Area" Foreground="Red" FontWeight="Bold" />
+            </Grid>
+            <Grid Grid.Row="2">
+                <TextBlock Text="Slide Area" Foreground="Red" FontWeight="Bold" />
+            </Grid>
+            <Grid Grid.Row="4">
+                <TextBlock Text="Audio Area" Foreground="Red" FontWeight="Bold" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
