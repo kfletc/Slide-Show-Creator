@@ -65,7 +65,9 @@ namespace IntroForm
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-
+            Viewer newViewer = new Viewer();
+            this.Close();
+            newViewer.Show();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -73,6 +75,56 @@ namespace IntroForm
             MainWindow mainWindow= new MainWindow();
             this.Close();
             mainWindow.Show();
+        }
+
+        private void btnImportImages_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnImportAudio_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbHandleDefaultTransition(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbManualDefaultTransition(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbHandleDefaultTransitionLength(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbManualDefaultTransitionLength(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbHandleNoTransitionAnimations(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbManualNoTransitionAnimations(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbHandleDefaultImageDuration(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbManualDefaultImageDuration(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
