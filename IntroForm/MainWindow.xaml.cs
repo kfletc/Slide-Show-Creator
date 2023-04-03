@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,21 @@ namespace IntroForm
     {
         public MainWindow()
         {
+            String baseDir = @"C:\Program Files\SlideShowCreator";
+            if(!Directory.Exists(baseDir))
+            {
+                Directory.CreateDirectory(baseDir);
+            }
+            String tempDir = System.IO.Path.Combine(baseDir, @".temp");
+            if(!Directory.Exists(tempDir))
+            {
+                Directory.CreateDirectory(tempDir);
+            }
+            String showDir = System.IO.Path.Combine(baseDir, @"SlideShows");
+            if(!Directory.Exists(showDir))
+            {
+                Directory.CreateDirectory(showDir);
+            }
             InitializeComponent();
         }
 

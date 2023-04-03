@@ -9,41 +9,41 @@ namespace IntroForm
 {
     public class SlideImage
     {
-        private String file_name;
+        private String fileName;
 
-        public String File_Name
+        public String FileName
         {
-            get { return file_name; }
-            set { file_name = value; }
+            get { return fileName; }
+            set { fileName = value; }
         }
 
-        private String folder_path;
+        private String folderPath;
 
-        public String Folder_Path
+        public String FolderPath
         {
-            get { return folder_path; }
-            set { folder_path = value; }
+            get { return folderPath; }
+            set { folderPath = value; }
         }
 
-        private BitmapImage bitmap_image;
+        private BitmapImage bitmapImage;
 
-        public BitmapImage Bitmap_Image
+        public BitmapImage BitmapImage
         {
-            get { return bitmap_image; }
+            get { return bitmapImage; }
         }
 
-        public SlideImage(String file_name, String folder_path)
+        public SlideImage(String fileName, String folderPath)
         {
-            this.File_Name = file_name;
-            this.Folder_Path = folder_path;
-            this.bitmap_image = null;
+            this.FileName = fileName;
+            this.FolderPath = folderPath;
+            this.bitmapImage = null;
         }
 
         public void loadBitmap(int size, bool byWidth)
         {
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri(folder_path + file_name);
+            bitmapImage.UriSource = new Uri(folderPath + fileName);
             if (byWidth)
             {
                 bitmapImage.DecodePixelWidth = size;
