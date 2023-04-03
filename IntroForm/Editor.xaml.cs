@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Text.Json;
+using System.IO;
 
 namespace IntroForm
 {
@@ -65,7 +67,15 @@ namespace IntroForm
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
+            SlideImage testImage = new SlideImage("test/path", "testname");
+            Slide testSlide = new Slide(testImage);
+            this.sshow.Test = testSlide;
 
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(this.sshow, options);
+
+            string fileName = "jsontext.json";
+            File.WriteAllText(fileName, jsonString);
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

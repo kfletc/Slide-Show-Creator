@@ -16,6 +16,14 @@ namespace IntroForm
             set { name = value; }
         }
 
+        private Slide test;
+
+        public Slide Test
+        {
+            get { return test; }
+            set { test = value; }
+        }
+
         public SlideShow(string inName)
         {
             this.name = inName;
