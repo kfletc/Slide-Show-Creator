@@ -23,7 +23,7 @@ namespace IntroForm
     {
         public MainWindow()
         {
-            String baseDir = @"C:\Program Files\SlideShowCreator";
+            String baseDir = @"C:\ProgramData\SlideShowCreator";
             if(!Directory.Exists(baseDir))
             {
                 Directory.CreateDirectory(baseDir);

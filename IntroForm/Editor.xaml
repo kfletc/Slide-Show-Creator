@@ -382,9 +382,6 @@
 
                                         <Border Grid.Row="0" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
                                             <Image Width="200" Height="175">
-                                                <Image.Source>
-                                                    <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\TestImage1.jpeg"/>
-                                                </Image.Source>
 
                                             </Image>
                                         </Border>
@@ -484,108 +481,72 @@
                                         <WrapPanel Width="{Binding ElementName=MyScrollViewer, Path=ActualWidth}">
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F1.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F2.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F3.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F4.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F5.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F6.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F7.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F8.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F9.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F10.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F11.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F12.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
@@ -611,33 +572,21 @@
 
                                             <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="125" Height="125">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F6.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
                                             <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="125" Height="125">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F8.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
                                             <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="125" Height="125">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\F1.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
                                             <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="125" Height="125">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\TestImage1.jpeg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
@@ -663,17 +612,11 @@
 
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\audioThumbnail.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>
                                             <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
                                                 <Image Width="75" Height="75">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="C:\Users\thebl\Desktop\College Classes\_Current Semester\CS499\Repos\Images\audioThumbnail.jpg"/>
-                                                    </Image.Source>
 
                                                 </Image>
                                             </Border>

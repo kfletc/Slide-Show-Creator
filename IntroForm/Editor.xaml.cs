@@ -62,6 +62,7 @@ namespace IntroForm
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.sshow.deleteTempShow();
             Application.Current.Shutdown();
         }
 
@@ -71,19 +72,16 @@ namespace IntroForm
             Slide testSlide = new Slide(testImage);
             this.sshow.Test = testSlide;
 
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(this.sshow, options);
-
-            string fileName = "jsontext.json";
-            File.WriteAllText(fileName, jsonString);
+            this.sshow.copyTempShowOut();
+            this.sshow.saveSlideShow();
             
             Viewer newViewer = new Viewer();
-            this.Close();
             newViewer.Show();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
+            this.sshow.deleteTempShow();
             MainWindow mainWindow= new MainWindow();
             this.Close();
             mainWindow.Show();
