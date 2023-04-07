@@ -68,9 +68,6 @@ namespace IntroForm
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-            SlideImage testImage = new SlideImage("test/path", "testname");
-            Slide testSlide = new Slide(testImage);
-            this.sshow.Test = testSlide;
 
             this.sshow.copyTempShowOut();
             this.sshow.saveSlideShow();
