@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.Json;
 using System.IO;
+using Microsoft.Win32;
 
 namespace IntroForm
 {
@@ -63,18 +65,18 @@ namespace IntroForm
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.sshow.deleteTempShow();
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
-            SlideImage testImage = new SlideImage("test/path", "testname");
-            Slide testSlide = new Slide(testImage);
-            this.sshow.Test = testSlide;
+            ImageDisplayPanel.Children.Clear();
 
             this.sshow.copyTempShowOut();
+            this.sshow.deleteTempShow();
             this.sshow.saveSlideShow();
-            
+
+            this.Hide();
             Viewer newViewer = new Viewer();
             newViewer.Show();
         }
@@ -89,7 +91,41 @@ namespace IntroForm
 
         private void btnImportImages_Click(object sender, RoutedEventArgs e)
         {
+            FolderBrowserDialog diag = new FolderBrowserDialog();
+            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string folder = diag.SelectedPath;  //selected folder path
+                string[] pngFiles = Directory.GetFiles(folder, "*.png");
+                string[] jpegFiles = Directory.GetFiles(folder, "*.jpeg");
+                string[] jpgFiles = Directory.GetFiles(folder, "*.jpg");
+                string[] imageFiles = pngFiles.Concat(jpegFiles).Concat(jpgFiles).ToArray();
+                String tempDir = @"C:\ProgramData\SlideShowCreator\.temp\";
+                tempDir = System.IO.Path.Combine(tempDir, this.sshow.Name);
+                tempDir = System.IO.Path.Combine(tempDir, "images");
+                foreach (string file in imageFiles)
+                {
+                    String dest = System.IO.Path.Combine(tempDir, System.IO.Path.GetFileName(file));
+                    File.Copy(file, dest, true);
+                    SlideImage image = new SlideImage(System.IO.Path.GetFileName(file), tempDir);
+                    this.sshow.addImage(image);
+                }
 
+                ImageDisplayPanel.Children.Clear();
+                foreach (SlideImage image in this.sshow.Images)
+                {
+                    Image displayImage = new Image();
+                    displayImage.Source = image.BitmapImage;
+                    Border border = new Border();
+                    border.Width = 75;
+                    border.Height = 75;
+                    border.BorderBrush = Brushes.LightGray;
+                    border.BorderThickness = new Thickness(1);
+                    border.Margin = new Thickness(5, 5, 5, 5);
+                    border.Child = displayImage;
+                    ImageDisplayPanel.Children.Add(border);
+                }
+
+            }
         }
 
         private void btnImportAudio_Click(object sender, RoutedEventArgs e)

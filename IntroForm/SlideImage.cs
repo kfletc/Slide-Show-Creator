@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Forms.Design;
 using System.Windows.Media.Imaging;
 
 namespace IntroForm
@@ -27,6 +29,7 @@ namespace IntroForm
 
         private BitmapImage bitmapImage;
 
+        [JsonIgnore]
         public BitmapImage BitmapImage
         {
             get { return bitmapImage; }
@@ -36,10 +39,10 @@ namespace IntroForm
         {
             this.FileName = fileName;
             this.FolderPath = folderPath;
-            this.bitmapImage = null;
+            loadBitmap();
         }
 
-        public void loadBitmap(int size, bool byWidth)
+        public void loadBitmapSize(int size, bool byWidth)
         {
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -50,6 +53,22 @@ namespace IntroForm
             }
             else bitmapImage.DecodePixelHeight = size;
             bitmapImage.EndInit();
+        }
+
+        public void loadBitmap()
+        {
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri(System.IO.Path.Combine(folderPath, fileName));
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad; 
+            bitmapImage.EndInit();
+            this.bitmapImage = bitmapImage;
+        }
+
+        public void updateFolder(String folder)
+        {
+            this.FolderPath = folder;
+            loadBitmap();
         }
 
     }

@@ -478,78 +478,7 @@
                                                   Grid.Row="0"
                                                   Margin="0,0,0,-1">
 
-                                        <WrapPanel Width="{Binding ElementName=MyScrollViewer, Path=ActualWidth}">
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
+                                        <WrapPanel Width="{Binding ElementName=MyScrollViewer, Path=ActualWidth}" x:Name="ImageDisplayPanel">
 
                                         </WrapPanel>
                                     </ScrollViewer>
