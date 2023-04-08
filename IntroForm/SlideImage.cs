@@ -60,6 +60,7 @@ namespace IntroForm
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri(System.IO.Path.Combine(folderPath, fileName));
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad; 
             bitmapImage.EndInit();
             this.bitmapImage = bitmapImage;
         }

@@ -107,7 +107,7 @@ namespace IntroForm
             {
                 image.updateFolder(System.IO.Path.Combine(dir2, "images"));
             }
-            deleteTempShow();
+            
         }
 
         public void saveSlideShow()

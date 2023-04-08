@@ -70,13 +70,15 @@ namespace IntroForm
 
         private void btnShow_Click(object sender, RoutedEventArgs e)
         {
+            ImageDisplayPanel.Children.Clear();
 
             this.sshow.copyTempShowOut();
+            this.sshow.deleteTempShow();
             this.sshow.saveSlideShow();
-            
+
+            this.Hide();
             Viewer newViewer = new Viewer();
             newViewer.Show();
-            this.Hide();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -103,11 +105,12 @@ namespace IntroForm
                 foreach (string file in imageFiles)
                 {
                     String dest = System.IO.Path.Combine(tempDir, System.IO.Path.GetFileName(file));
-                    File.Copy(file, dest);
+                    File.Copy(file, dest, true);
                     SlideImage image = new SlideImage(System.IO.Path.GetFileName(file), tempDir);
                     this.sshow.addImage(image);
                 }
 
+                ImageDisplayPanel.Children.Clear();
                 foreach (SlideImage image in this.sshow.Images)
                 {
                     Image displayImage = new Image();
