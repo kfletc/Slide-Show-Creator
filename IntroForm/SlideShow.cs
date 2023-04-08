@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Security.AccessControl;
 
 namespace IntroForm
 {
@@ -18,9 +21,34 @@ namespace IntroForm
             set { name = value; }
         }
 
+        private ObservableCollection<Slide> slides;
+
+        public ObservableCollection<Slide> Slides
+        {
+            get { return slides; }
+        }
+
+        private ObservableCollection<SlideImage> images;
+
+        public ObservableCollection<SlideImage> Images
+        {
+            get { return images; }
+        }
+
+        private ObservableCollection<SoundTrack> soundTracks;
+
+        public ObservableCollection<SoundTrack> SoundTracks
+        {
+            get { return soundTracks; } 
+        }
+
         public SlideShow(string inName)
         {
             this.name = inName;
+
+            this.slides = new ObservableCollection<Slide>();
+            this.images = new ObservableCollection<SlideImage>();
+            this.soundTracks = new ObservableCollection<SoundTrack>();
 
             String baseDir = @"C:\ProgramData\SlideShowCreator\.temp";
             String dir = System.IO.Path.Combine(baseDir, this.name);
@@ -40,8 +68,30 @@ namespace IntroForm
             }
         }
 
+        public void resetSlides()
+        {
+            slides.Clear();
+        }
+
+        public void addSlide(Slide slide)
+        {
+            slides.Add(slide);
+        }
+
+        public void addImage(SlideImage image)
+        {
+            images.Add(image);
+        }
+
+        public void play()
+        {
+
+        }
+
         public void deleteTempShow()
         {
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
             String dir1 = @"C:\ProgramData\SlideShowCreator\.temp\" + this.name;
             Directory.Delete(dir1, true);
         }
@@ -52,7 +102,12 @@ namespace IntroForm
             String dir2 = @"C:\ProgramData\SlideShowCreator\SlideShows\" + this.name;
 
             SlideShowUtilities.CopyFolder(dir1, dir2);
-            this.deleteTempShow();
+
+            foreach (SlideImage image in images)
+            {
+                image.updateFolder(System.IO.Path.Combine(dir2, "images"));
+            }
+            deleteTempShow();
         }
 
         public void saveSlideShow()
