@@ -28,6 +28,14 @@ namespace IntroForm
             get { return slides; }
         }
 
+        private Slide selectedSlide;
+
+        public Slide SelectedSlide
+        {
+            get { return selectedSlide; }
+            set { selectedSlide = value; }
+        }
+
         private ObservableCollection<SlideImage> images;
 
         public ObservableCollection<SlideImage> Images

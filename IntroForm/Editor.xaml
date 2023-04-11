@@ -380,10 +380,8 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
 
-                                        <Border Grid.Row="0" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                            <Image Width="200" Height="175">
-
-                                            </Image>
+                                        <Border x:Name="ImagePreview" Grid.Row="0" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
+                                          
                                         </Border>
 
                                         <Border Grid.Row="1" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
@@ -400,12 +398,12 @@
                                                 <Label Foreground="LightGray"
                                                        FontSize="16"
                                                        FontFamily="Montserrat">Choose Transition:</Label>
-                                                <RadioButton GroupName="transition">Wipe Up</RadioButton>
-                                                <RadioButton GroupName="transition">Wipe Down</RadioButton>
-                                                <RadioButton GroupName="transition">Wipe Left</RadioButton>
-                                                <RadioButton GroupName="transition">Wipe Right</RadioButton>
-                                                <RadioButton GroupName="transition">Cross Fade</RadioButton>
-                                                <RadioButton GroupName="transition">No Transition</RadioButton>
+                                                <RadioButton x:Name="WipeUp" GroupName="transition">Wipe Up</RadioButton>
+                                                <RadioButton x:Name="WipeDown" GroupName="transition">Wipe Down</RadioButton>
+                                                <RadioButton x:Name="WipeLeft" GroupName="transition">Wipe Left</RadioButton>
+                                                <RadioButton x:Name="WipeRight" GroupName="transition">Wipe Right</RadioButton>
+                                                <RadioButton x:Name="CrossFade" GroupName="transition">Cross Fade</RadioButton>
+                                                <RadioButton x:Name="NoTransition" GroupName="transition">No Transition</RadioButton>
                                             </StackPanel>
                                         </Border>
 
@@ -439,7 +437,7 @@
                                                            FontFamily="Montserrat"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"/>
-                                                <TextBox x:Name="FileNameTextBox"
+                                                <TextBox x:Name="ImageDurationTextBox"
                                                          Margin="5 5 5 5"
                                                          Width="75"
                                                          Foreground="LightGray"
@@ -492,33 +490,19 @@
                                                   VerticalScrollBarVisibility="Disabled"
                                                   CanContentScroll="True">
 
-                                        <StackPanel Width="{Binding ElementName=MyScrollViewer2, Path=ActualWidth}" 
+                                        <StackPanel Width="{Binding ElementName=MyScrollViewer2, Path=ActualWidth}"
+                                                    x:Name="SlidePanel"
                                                     Orientation="Horizontal" 
                                                     CanHorizontallyScroll="True" 
                                                     ForceCursor="False" 
                                                     SnapsToDevicePixels="True" 
-                                                    OverridesDefaultStyle="True">
+                                                    OverridesDefaultStyle="True"
+                                                    AllowDrop="True"
+                                                    Background="Transparent"
+                                                    DragOver="show_panel_DragOver"
+                                                    Drop="show_panel_Drop">
 
-                                            <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="125" Height="125">
 
-                                                </Image>
-                                            </Border>
-                                            <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="125" Height="125">
-
-                                                </Image>
-                                            </Border>
-                                            <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="125" Height="125">
-
-                                                </Image>
-                                            </Border>
-                                            <Border Width="125" Height="125" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="125" Height="125">
-
-                                                </Image>
-                                            </Border>
 
                                         </StackPanel>
                                     </ScrollViewer>
