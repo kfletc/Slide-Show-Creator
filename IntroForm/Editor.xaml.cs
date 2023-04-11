@@ -14,7 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.Json;
 using System.IO;
+using System.Threading;
 using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace IntroForm
 {
@@ -42,6 +44,107 @@ namespace IntroForm
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
+            }
+        }
+
+        private void show_panel_DragOver(object sender, System.Windows.DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("Object"))
+            {
+                // These Effects values are used in the drag source's
+                // GiveFeedback event handler to determine which cursor to display.
+                e.Effects = System.Windows.DragDropEffects.Copy;
+            }
+        }
+
+        private void show_panel_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            if (e.Handled == false)
+            {
+                System.Windows.Controls.Panel panel = (System.Windows.Controls.Panel)sender;
+                UIElement element = (UIElement)e.Data.GetData("Object");
+
+                if (panel != null && element != null)
+                {
+                    System.Windows.Controls.Panel parent = (System.Windows.Controls.Panel)VisualTreeHelper.GetParent(element);
+                    if (parent.Name != panel.Name)
+                    {
+                        if (e.AllowedEffects.HasFlag(System.Windows.DragDropEffects.Copy))
+                        {
+                            SlideDisplay slideDisplay = new SlideDisplay((SlideDisplay)element);
+                            slideDisplay.PreviewMouseUp += slide_MouseUp;
+                            slideDisplay.CurrentSlide = new Slide(slideDisplay.CurrentImage);
+                            panel.Children.Add(slideDisplay);
+                            this.sshow.resetSlides();
+                            foreach(SlideDisplay slide in panel.Children)
+                            {
+                                if (slide.CurrentSlide != null)
+                                {
+                                    this.sshow.addSlide(slide.CurrentSlide);
+                                }
+                            }
+                            // set the value to return to the DoDragDrop call
+                            e.Effects = System.Windows.DragDropEffects.None;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void slide_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            foreach(SlideDisplay slide in SlidePanel.Children)
+            {
+                slide.unselect();
+            }
+            SlideDisplay sender2 = (SlideDisplay)sender;
+            sender2.select();
+            if(sender2.CurrentSlide != null)
+            {
+                this.sshow.SelectedSlide = sender2.CurrentSlide;
+
+                // set image preview
+                Image prevImage = new Image();
+                prevImage.Source = this.sshow.SelectedSlide.Image.BitmapImage;
+                prevImage.Width = 200;
+                prevImage.Height = 175;
+                ImagePreview.Child = prevImage;
+
+                // set transition
+                NoTransition.IsChecked = false;
+                WipeRight.IsChecked = false;
+                WipeLeft.IsChecked = false;
+                WipeUp.IsChecked = false;
+                WipeDown.IsChecked = false;
+                CrossFade.IsChecked = false;
+                switch (this.sshow.SelectedSlide.Transition)
+                {
+                    case Slide.TransitionType.None:
+                        NoTransition.IsChecked = true;
+                        break;
+                    case Slide.TransitionType.WipeRight:
+                        WipeRight.IsChecked = true;
+                        break;
+                    case Slide.TransitionType.WipeLeft:
+                        WipeLeft.IsChecked = true;
+                        break;
+                    case Slide.TransitionType.WipeUp:
+                        WipeUp.IsChecked = true;
+                        break;
+                    case Slide.TransitionType.WipeDown:
+                        WipeDown.IsChecked = true;
+                        break;
+                    case Slide.TransitionType.CrossFade:
+                        CrossFade.IsChecked = true;
+                        break;
+                }
+
+                // set transition length
+                TransitionLengthTextBox.Text = this.sshow.SelectedSlide.TransitionDuration.ToString();
+
+                // set slide length
+                ImageDurationTextBox.Text = this.sshow.SelectedSlide.SlideDuration.ToString();
+
             }
         }
 
@@ -113,7 +216,7 @@ namespace IntroForm
                 ImageDisplayPanel.Children.Clear();
                 foreach (SlideImage image in this.sshow.Images)
                 {
-                    Image displayImage = new Image();
+                    /*Image displayImage = new Image();
                     displayImage.Source = image.BitmapImage;
                     Border border = new Border();
                     border.Width = 75;
@@ -122,7 +225,10 @@ namespace IntroForm
                     border.BorderThickness = new Thickness(1);
                     border.Margin = new Thickness(5, 5, 5, 5);
                     border.Child = displayImage;
-                    ImageDisplayPanel.Children.Add(border);
+                    ImageDisplayPanel.Children.Add(border);*/
+
+                    SlideDisplay displayImage = new SlideDisplay(image);
+                    ImageDisplayPanel.Children.Add(displayImage);
                 }
 
             }
