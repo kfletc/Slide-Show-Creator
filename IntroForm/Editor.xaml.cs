@@ -241,42 +241,73 @@ namespace IntroForm
 
         private void cbHandleDefaultTransition(object sender, RoutedEventArgs e)
         {
+            foreach(Slide slide in this.sshow.Slides)
+            {
+                slide.Transition = Slide.TransitionType.None;
+            }
+            WipeRight.IsChecked = false;
+            WipeLeft.IsChecked = false;
+            WipeUp.IsChecked = false;
+            WipeDown.IsChecked = false;
+            CrossFade.IsChecked = false;
+            NoTransition.IsChecked = true;
+            WipeRight.IsEnabled = false;
+            WipeLeft.IsEnabled = false;
+            WipeUp.IsEnabled = false;
+            WipeDown.IsEnabled = false;
+            CrossFade.IsEnabled = false;
+            NoTransition.IsEnabled = false;
 
         }
 
         private void cbManualDefaultTransition(object sender, RoutedEventArgs e)
         {
-
+            WipeRight.IsEnabled = true;
+            WipeLeft.IsEnabled = true;
+            WipeUp.IsEnabled = true;
+            WipeDown.IsEnabled = true;
+            CrossFade.IsEnabled = true;
+            NoTransition.IsEnabled = true;
         }
 
         private void cbHandleDefaultTransitionLength(object sender, RoutedEventArgs e)
         {
-
+            foreach (Slide slide in this.sshow.Slides)
+            {
+                slide.TransitionDuration = 1000;
+            }
+            TransitionLengthTextBox.IsEnabled = false;
         }
 
         private void cbManualDefaultTransitionLength(object sender, RoutedEventArgs e)
         {
-
+            TransitionLengthTextBox.IsEnabled = true;
         }
 
-        private void cbHandleNoTransitionAnimations(object sender, RoutedEventArgs e)
+        private void cbHandleManualSlideShow(object sender, RoutedEventArgs e)
         {
-
+            this.sshow.IsAutomatic = false;
+            ImageDurationTextBox.IsEnabled = false;
         }
 
-        private void cbManualNoTransitionAnimations(object sender, RoutedEventArgs e)
+        private void cbManualManualSlideShow(object sender, RoutedEventArgs e)
         {
-
+            this.sshow.IsAutomatic = true;
+            ImageDurationTextBox.IsEnabled = true;
         }
 
         private void cbHandleDefaultImageDuration(object sender, RoutedEventArgs e)
         {
-
+            foreach (Slide slide in this.sshow.Slides)
+            {
+                slide.SlideDuration = 3000;
+            }
+            ImageDurationTextBox.IsEnabled = false;
         }
 
         private void cbManualDefaultImageDuration(object sender, RoutedEventArgs e)
         {
-
+            ImageDurationTextBox.IsEnabled = true;
         }
     }
 }

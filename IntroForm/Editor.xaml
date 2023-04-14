@@ -265,19 +265,6 @@
                                                           Unchecked="cbManualDefaultTransitionLength"/>
                                             </Border>
                                             <Border Grid.Row="5" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                                <CheckBox x:Name="cbNoTransitionAnimations"
-                                                          Content="No Transition Animations"
-                                                          Background="#28AEED"
-                                                          Foreground="LightGray"
-                                                          FontSize="13"
-                                                          FontWeight="Medium"
-                                                          FontFamily="Montserrat"
-                                                          HorizontalAlignment="Left"
-                                                          VerticalAlignment="Center"
-                                                          Checked="cbHandleNoTransitionAnimations"
-                                                          Unchecked="cbManualNoTransitionAnimations"/>
-                                            </Border>
-                                            <Border Grid.Row="6" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
                                                 <CheckBox x:Name="cbDefaultImageDuration"
                                                           Content="Default Image Duration"
                                                           Background="#28AEED"
@@ -289,6 +276,19 @@
                                                           VerticalAlignment="Center"
                                                           Checked="cbHandleDefaultImageDuration"
                                                           Unchecked="cbManualDefaultImageDuration"/>
+                                            </Border>
+                                            <Border Grid.Row="6" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
+                                                <CheckBox x:Name="cbManualSlideShow"
+                                                          Content="Advance Slideshow Manually"
+                                                          Background="#28AEED"
+                                                          Foreground="LightGray"
+                                                          FontSize="13"
+                                                          FontWeight="Medium"
+                                                          FontFamily="Montserrat"
+                                                          HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center"
+                                                          Checked="cbHandleManualSlideShow"
+                                                          Unchecked="cbManualManualSlideShow"/>
                                             </Border>
 
 

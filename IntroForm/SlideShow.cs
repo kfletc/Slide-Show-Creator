@@ -50,6 +50,14 @@ namespace IntroForm
             get { return soundTracks; } 
         }
 
+        private bool isAutomatic;
+
+        public bool IsAutomatic
+        {
+            get { return isAutomatic; }
+            set { isAutomatic = value; }
+        }
+
         public SlideShow(string inName)
         {
             this.name = inName;
@@ -115,7 +123,6 @@ namespace IntroForm
             {
                 image.updateFolder(System.IO.Path.Combine(dir2, "images"));
             }
-            
         }
 
         public void saveSlideShow()
