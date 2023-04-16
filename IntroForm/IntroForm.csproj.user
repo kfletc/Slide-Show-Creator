@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AudioDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Editor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -21,6 +24,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AudioDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Editor.xaml">
       <SubType>Designer</SubType>
     </Page>

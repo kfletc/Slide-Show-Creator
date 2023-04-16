@@ -54,7 +54,6 @@ namespace IntroForm
             this.currentSlide = sDisplay.currentSlide;
             Image displayImage = new Image();
             displayImage.Source = currentImage.BitmapImage;
-            //ImageBorder.PreviewMouseDown += slide_MouseDown;
             ImageBorder.Width = 75;
             ImageBorder.Height = 75;
             ImageBorder.BorderBrush = Brushes.LightGray;

@@ -11,14 +11,6 @@ namespace IntroForm
 {
     public class SoundTrack
     {
-        private String? folderPath;
-
-        public String? FolderPath
-        {
-            get { return folderPath; }
-            set { folderPath = value; }
-        }
-
         private String? name;
 
         public String? Name
@@ -27,20 +19,28 @@ namespace IntroForm
             set { name = value; }
         }
 
-        private Duration audioDuration;
+        private String? folderPath;
 
-        public Duration AudioDuration
+        public String? FolderPath
+        {
+            get { return folderPath; }
+            set { folderPath = value; }
+        }
+
+        private TimeSpan audioDuration;
+
+        public TimeSpan AudioDuration
         {
             get { return audioDuration; }
             set { audioDuration = value; }
-        }
+        } 
 
 
-        public SoundTrack(String folderPath, String name, Duration audioDuration)
+        public SoundTrack(String name, String folderPath, TimeSpan duration)
         {
-            FolderPath = folderPath;
             Name = name;
-            AudioDuration = audioDuration;
+            FolderPath = folderPath;
+            AudioDuration = duration;
         }
     }
 }

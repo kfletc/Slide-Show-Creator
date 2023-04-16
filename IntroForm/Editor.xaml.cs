@@ -17,6 +17,10 @@ using System.IO;
 using System.Threading;
 using Microsoft.Win32;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Numerics;
+using System.Windows.Forms.Design;
 
 namespace IntroForm
 {
@@ -25,6 +29,8 @@ namespace IntroForm
     /// </summary>
     public partial class Editor : Window
     {
+        private bool isAiff = false;
+
         private SlideShow sshow;
 
         public SlideShow SShow
@@ -74,7 +80,15 @@ namespace IntroForm
                             SlideDisplay slideDisplay = new SlideDisplay((SlideDisplay)element);
                             slideDisplay.PreviewMouseUp += slide_MouseUp;
                             slideDisplay.CurrentSlide = new Slide(slideDisplay.CurrentImage);
+                            ContextMenu deleteMenu = new ContextMenu();
+                            MenuItem deleteItem = new MenuItem();
+                            deleteItem.Header = "Delete";
+                            deleteItem.Click += deleteSlide;
+                            deleteMenu.Items.Add(deleteItem);
+                            slideDisplay.ImageBorder.ContextMenu = deleteMenu;
+
                             panel.Children.Add(slideDisplay);
+
                             this.sshow.resetSlides();
                             foreach(SlideDisplay slide in panel.Children)
                             {
@@ -83,12 +97,54 @@ namespace IntroForm
                                     this.sshow.addSlide(slide.CurrentSlide);
                                 }
                             }
+                            update_info();
+
                             // set the value to return to the DoDragDrop call
                             e.Effects = System.Windows.DragDropEffects.None;
                         }
                     }
                 }
             }
+        }
+
+        private void deleteSlide(object sender, RoutedEventArgs e)
+        {
+            foreach(SlideDisplay slideDisplay in SlidePanel.Children)
+            {
+                if(slideDisplay.CurrentSlide == this.sshow.SelectedSlide)
+                {
+                    SlidePanel.Children.Remove(slideDisplay);
+                    this.sshow.Slides.Remove(this.sshow.SelectedSlide);
+                    update_info();
+                    break;
+                }
+            }
+        }
+
+        private void update_info()
+        {
+            double total_time = 0.0;
+            foreach(Slide slide in this.sshow.Slides)
+            {
+                total_time += slide.SlideDuration;
+                total_time += slide.TransitionDuration;
+            }
+            total_time = total_time / 1000;
+            TimeSpan t = TimeSpan.FromSeconds(total_time);
+            string answer = string.Format("{0:D2}m:{1:D2}s:{2:D3}ms",
+            t.Minutes,
+            t.Seconds,
+            t.Milliseconds);
+            if (cbManualSlideShow.IsChecked == true)
+            {
+                ShowTime.Text = "Slideshow Duration: N/A";
+            }
+            else
+            {
+                ShowTime.Text = "Slideshow Duration: " + answer;
+            }
+            SlideTotal.Text = "Total Number of Slides: " + this.sshow.Slides.Count.ToString();
+            AudioTotal.Text = "Total Soundtracks: " + this.sshow.SoundTracks.Count.ToString();
         }
 
         private void slide_MouseUp(object sender, MouseButtonEventArgs e)
@@ -208,7 +264,7 @@ namespace IntroForm
                 foreach (string file in imageFiles)
                 {
                     String dest = System.IO.Path.Combine(tempDir, System.IO.Path.GetFileName(file));
-                    File.Copy(file, dest, true);
+                    System.IO.File.Copy(file, dest, true);
                     SlideImage image = new SlideImage(System.IO.Path.GetFileName(file), tempDir);
                     this.sshow.addImage(image);
                 }
@@ -234,9 +290,113 @@ namespace IntroForm
             }
         }
 
+        private void playerAudioOpened(object? sender, EventArgs e)
+        {
+            MediaPlayer? player = sender as MediaPlayer;
+            if (player != null)
+            {
+                TimeSpan duration = TimeSpan.FromSeconds(0);
+                if (player.NaturalDuration.HasTimeSpan)
+                {
+                    duration = player.NaturalDuration.TimeSpan;
+                }
+
+                String tempDir = @"C:\ProgramData\SlideShowCreator\.temp\";
+                tempDir = System.IO.Path.Combine(tempDir, this.sshow.Name);
+                tempDir = System.IO.Path.Combine(tempDir, "audio");
+                String fileName = System.IO.Path.GetFileName(player.Source.ToString());
+                player.Close();
+
+                if (this.isAiff)
+                {
+                    String fullPath = System.IO.Path.Combine(tempDir, fileName);
+                    System.IO.File.Delete(fullPath);
+                    fileName = fileName.Substring(0, fileName.Length - 4) + ".aiff";
+                    this.isAiff = false;
+                }
+
+                SoundTrack audioTrack = new SoundTrack(fileName, tempDir, duration);
+                this.sshow.SoundTracks.Add(audioTrack);
+                updateAudioTracks();
+                update_info();
+            }
+        }
+
         private void btnImportAudio_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Audio files (*.wav;*.aiff;*.mp3)|*.wav;*.aiff;*.mp3";
+            if (dialog.ShowDialog() == true)
+            {
+                String tempDir = @"C:\ProgramData\SlideShowCreator\.temp\";
+                tempDir = System.IO.Path.Combine(tempDir, this.sshow.Name);
+                tempDir = System.IO.Path.Combine(tempDir, "audio");
+                String fileName = System.IO.Path.GetFileName(dialog.FileName);
+                String dest = System.IO.Path.Combine(tempDir, fileName);
+                System.IO.File.Copy(dialog.FileName, dest, true);
 
+                if(fileName.EndsWith(".aiff"))
+                {
+                    this.isAiff = true;
+                    String wavFile = dialog.FileName.Substring(0, dialog.FileName.Length - 5) + ".wav";
+                    try
+                    {
+                        SlideShowUtilities.ConvertAiffToWav(dialog.FileName, wavFile);
+                    }
+                    catch(FormatException exception)
+                    {
+                        System.Windows.MessageBox.Show(exception.Message + "\nMake sure aiff file chosen isn't compressed.", "Format Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    dest = wavFile;
+                }
+                
+                MediaPlayer player = new MediaPlayer();
+                player.Open(new Uri(dest));
+                player.MediaOpened += playerAudioOpened;
+            }
+        }
+
+
+
+        private void updateAudioTracks()
+        {
+            AudioPanel.Children.Clear();
+            foreach(SoundTrack soundTrack in this.sshow.SoundTracks) 
+            {
+                AudioDisplay audioDisplay = new AudioDisplay(soundTrack);
+                audioDisplay.PreviewMouseUp += audio_MouseUp;
+                ContextMenu deleteMenu = new ContextMenu();
+                MenuItem deleteItem = new MenuItem();
+                deleteItem.Header = "Delete";
+                deleteItem.Click += deleteAudio;
+                deleteMenu.Items.Add(deleteItem);
+                audioDisplay.ContextMenu = deleteMenu;
+                AudioPanel.Children.Add(audioDisplay);
+            }
+
+        }
+
+        private void audio_MouseUp(object sender, RoutedEventArgs e)
+        {
+            AudioDisplay? audio = sender as AudioDisplay;
+            if(audio != null)
+            {
+                this.sshow.SelectedSoundTrack = audio.AudioTrack;
+            }
+        }
+
+        private void deleteAudio(object sender, RoutedEventArgs e) 
+        {
+            foreach(AudioDisplay audioDisplay in AudioPanel.Children) 
+            {
+                if(this.sshow.SelectedSoundTrack == audioDisplay.AudioTrack)
+                {
+                    AudioPanel.Children.Remove(audioDisplay);
+                    this.sshow.SoundTracks.Remove(audioDisplay.AudioTrack);
+                    update_info();
+                    break;
+                }
+            }
         }
 
         private void cbHandleDefaultTransition(object sender, RoutedEventArgs e)
@@ -276,6 +436,7 @@ namespace IntroForm
             {
                 slide.TransitionDuration = 1000;
             }
+            TransitionLengthTextBox.Text = "1000";
             TransitionLengthTextBox.IsEnabled = false;
         }
 
@@ -288,12 +449,14 @@ namespace IntroForm
         {
             this.sshow.IsAutomatic = false;
             ImageDurationTextBox.IsEnabled = false;
+            update_info();
         }
 
         private void cbManualManualSlideShow(object sender, RoutedEventArgs e)
         {
             this.sshow.IsAutomatic = true;
             ImageDurationTextBox.IsEnabled = true;
+            update_info();
         }
 
         private void cbHandleDefaultImageDuration(object sender, RoutedEventArgs e)
@@ -302,12 +465,73 @@ namespace IntroForm
             {
                 slide.SlideDuration = 3000;
             }
+            ImageDurationTextBox.Text = "3000";
             ImageDurationTextBox.IsEnabled = false;
         }
 
         private void cbManualDefaultImageDuration(object sender, RoutedEventArgs e)
         {
             ImageDurationTextBox.IsEnabled = true;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void rbChooseWipeUp(object sender, RoutedEventArgs e)
+        {
+            if(this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.WipeUp;
+        }
+
+        private void rbChooseWipeDown(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.WipeDown;
+        }
+
+        private void rbChooseWipeLeft(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.WipeLeft;
+        }
+
+        private void rbChooseWipeRight(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.WipeRight;
+        }
+
+        private void rbChooseCrossFade(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.CrossFade;
+        }
+        
+        private void rbChooseNone(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+                this.sshow.SelectedSlide.Transition = Slide.TransitionType.None;
+        }
+
+        private void tbSetTransitionLength(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+            {
+                this.sshow.SelectedSlide.TransitionDuration = Int32.Parse(TransitionLengthTextBox.Text);
+                update_info();
+            }
+        }
+
+        private void tbSetImageLength(object sender, RoutedEventArgs e)
+        {
+            if (this.sshow.SelectedSlide != null)
+            {
+                this.sshow.SelectedSlide.SlideDuration = Int32.Parse(ImageDurationTextBox.Text);
+                update_info();
+            }
         }
     }
 }
