@@ -50,6 +50,22 @@ namespace IntroForm
             get { return soundTracks; } 
         }
 
+        private SoundTrack selectedSoundTrack;
+
+        public SoundTrack SelectedSoundTrack
+        {
+            get { return selectedSoundTrack; }
+            set { selectedSoundTrack = value; }
+        }
+
+        private bool isAutomatic;
+
+        public bool IsAutomatic
+        {
+            get { return isAutomatic; }
+            set { isAutomatic = value; }
+        }
+
         public SlideShow(string inName)
         {
             this.name = inName;
@@ -115,7 +131,11 @@ namespace IntroForm
             {
                 image.updateFolder(System.IO.Path.Combine(dir2, "images"));
             }
-            
+
+            foreach (SoundTrack track in SoundTracks)
+            {
+                track.FolderPath = System.IO.Path.Combine(dir2, "audio");
+            }
         }
 
         public void saveSlideShow()

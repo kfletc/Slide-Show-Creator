@@ -212,7 +212,7 @@
                                             </Grid.RowDefinitions>
 
                                             <Border Grid.Row="0" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                                <TextBlock Text="Total Slideshow Duration:"
+                                                <TextBlock x:Name="ShowTime" Text="Slideshow Duration:"
                                                            Foreground="LightGray"
                                                            FontSize="13"
                                                            FontWeight="Medium"
@@ -221,7 +221,7 @@
                                                            VerticalAlignment="Center"/>
                                             </Border>
                                             <Border Grid.Row="1" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                                <TextBlock Text="Total Number of Slides:"
+                                                <TextBlock x:Name="SlideTotal" Text="Total Number of Slides:"
                                                            Foreground="LightGray"
                                                            FontSize="13"
                                                            FontWeight="Medium"
@@ -230,7 +230,7 @@
                                                            VerticalAlignment="Center"/>
                                             </Border>
                                             <Border Grid.Row="2" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                                <TextBlock Text="Total Soundtracks:"
+                                                <TextBlock x:Name="AudioTotal" Text="Total Soundtracks:"
                                                            Foreground="LightGray"
                                                            FontSize="13"
                                                            FontWeight="Medium"
@@ -265,19 +265,6 @@
                                                           Unchecked="cbManualDefaultTransitionLength"/>
                                             </Border>
                                             <Border Grid.Row="5" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
-                                                <CheckBox x:Name="cbNoTransitionAnimations"
-                                                          Content="No Transition Animations"
-                                                          Background="#28AEED"
-                                                          Foreground="LightGray"
-                                                          FontSize="13"
-                                                          FontWeight="Medium"
-                                                          FontFamily="Montserrat"
-                                                          HorizontalAlignment="Left"
-                                                          VerticalAlignment="Center"
-                                                          Checked="cbHandleNoTransitionAnimations"
-                                                          Unchecked="cbManualNoTransitionAnimations"/>
-                                            </Border>
-                                            <Border Grid.Row="6" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
                                                 <CheckBox x:Name="cbDefaultImageDuration"
                                                           Content="Default Image Duration"
                                                           Background="#28AEED"
@@ -289,6 +276,19 @@
                                                           VerticalAlignment="Center"
                                                           Checked="cbHandleDefaultImageDuration"
                                                           Unchecked="cbManualDefaultImageDuration"/>
+                                            </Border>
+                                            <Border Grid.Row="6" BorderBrush ="LightGray" BorderThickness="0 0 0 1">
+                                                <CheckBox x:Name="cbManualSlideShow"
+                                                          Content="Advance Slideshow Manually"
+                                                          Background="#28AEED"
+                                                          Foreground="LightGray"
+                                                          FontSize="13"
+                                                          FontWeight="Medium"
+                                                          FontFamily="Montserrat"
+                                                          HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center"
+                                                          Checked="cbHandleManualSlideShow"
+                                                          Unchecked="cbManualManualSlideShow"/>
                                             </Border>
 
 
@@ -398,12 +398,12 @@
                                                 <Label Foreground="LightGray"
                                                        FontSize="16"
                                                        FontFamily="Montserrat">Choose Transition:</Label>
-                                                <RadioButton x:Name="WipeUp" GroupName="transition">Wipe Up</RadioButton>
-                                                <RadioButton x:Name="WipeDown" GroupName="transition">Wipe Down</RadioButton>
-                                                <RadioButton x:Name="WipeLeft" GroupName="transition">Wipe Left</RadioButton>
-                                                <RadioButton x:Name="WipeRight" GroupName="transition">Wipe Right</RadioButton>
-                                                <RadioButton x:Name="CrossFade" GroupName="transition">Cross Fade</RadioButton>
-                                                <RadioButton x:Name="NoTransition" GroupName="transition">No Transition</RadioButton>
+                                                <RadioButton Checked="rbChooseWipeUp" x:Name="WipeUp" GroupName="transition">Wipe Up</RadioButton>
+                                                <RadioButton Checked="rbChooseWipeDown" x:Name="WipeDown" GroupName="transition">Wipe Down</RadioButton>
+                                                <RadioButton Checked="rbChooseWipeLeft" x:Name="WipeLeft" GroupName="transition">Wipe Left</RadioButton>
+                                                <RadioButton Checked="rbChooseWipeRight" x:Name="WipeRight" GroupName="transition">Wipe Right</RadioButton>
+                                                <RadioButton Checked="rbChooseCrossFade" x:Name="CrossFade" GroupName="transition">Cross Fade</RadioButton>
+                                                <RadioButton Checked="rbChooseNone" x:Name="NoTransition" GroupName="transition">No Transition</RadioButton>
                                             </StackPanel>
                                         </Border>
 
@@ -417,6 +417,8 @@
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"/>
                                                 <TextBox x:Name="TransitionLengthTextBox"
+                                                         PreviewTextInput="NumberValidationTextBox"
+                                                         TextChanged="tbSetTransitionLength"
                                                          Margin="5 5 5 5"
                                                          Width="75"
                                                          Foreground="LightGray"
@@ -438,6 +440,8 @@
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Center"/>
                                                 <TextBox x:Name="ImageDurationTextBox"
+                                                         TextChanged="tbSetImageLength"
+                                                         PreviewTextInput="NumberValidationTextBox"
                                                          Margin="5 5 5 5"
                                                          Width="75"
                                                          Foreground="LightGray"
@@ -516,23 +520,13 @@
                                                   VerticalScrollBarVisibility="Disabled"
                                                   CanContentScroll="True">
 
-                                        <StackPanel Width="{Binding ElementName=MyScrollViewer2, Path=ActualWidth}" 
+                                        <StackPanel x:Name="AudioPanel" Width="{Binding ElementName=MyScrollViewer2, Path=ActualWidth}" 
                                                     Orientation="Horizontal" 
                                                     CanHorizontallyScroll="True" 
                                                     ForceCursor="False" 
                                                     SnapsToDevicePixels="True" 
                                                     OverridesDefaultStyle="True">
 
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
-                                            <Border Width="75" Height="75" BorderBrush ="LightGray" BorderThickness="1" Margin="5 5 5 5">
-                                                <Image Width="75" Height="75">
-
-                                                </Image>
-                                            </Border>
 
                                         </StackPanel>
                                     </ScrollViewer>
