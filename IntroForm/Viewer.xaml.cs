@@ -32,6 +32,7 @@ namespace IntroForm
             set { sshow = value; }
         }
         // instance variables
+        private int audioNum = 0;
         private int slideNum = 0;
         private Border border1;
         private Border border2;
@@ -48,6 +49,7 @@ namespace IntroForm
         private AnimationClock? clock4;
         private DispatcherTimer? timer;
         private DispatcherTimer? transitionTimer;
+        private MediaElement? audioPlayer;
         private int currentMs = 0;
         private int currentTMs = 0;
         private Slide currentSlide;
@@ -56,6 +58,17 @@ namespace IntroForm
         {
             InitializeComponent();
             this.sshow = sshow;
+            if(this.sshow.SoundTracks.Count > 0)
+            {
+                audioPlayer = new MediaElement();
+                String audioPath = System.IO.Path.Combine(this.sshow.SoundTracks[audioNum].FolderPath, this.sshow.SoundTracks[audioNum].Name);
+                audioPlayer.Source = new Uri(audioPath);
+                audioPlayer.MediaEnded += trackOver;
+                AudioGrid.Children.Add(audioPlayer);
+                audioPlayer.LoadedBehavior = MediaState.Manual;
+                audioPlayer.UnloadedBehavior = MediaState.Manual;
+                audioPlayer.Play();
+            }
             if(this.sshow.IsAutomatic == false)
             {
                 btnPlay.Visibility = Visibility.Hidden;
@@ -106,7 +119,7 @@ namespace IntroForm
             {
                 border2.Opacity = 0;
                 image2.Opacity = 0;
-                timer = new DispatcherTimer();
+                timer = new DispatcherTimer(DispatcherPriority.Render);
                 timer.Interval = TimeSpan.FromMilliseconds(10);
                 timer.Tick += timerTickNone;
                 timer.Start();
@@ -135,7 +148,7 @@ namespace IntroForm
                 animation2.To = 1;
                 animation3.To = 0;
                 animation4.To = 1;
-                timer = new DispatcherTimer();
+                timer = new DispatcherTimer(DispatcherPriority.Render);
                 timer.Interval = TimeSpan.FromMilliseconds(10);
                 timer.Tick += timerTickCrossfade;
                 timer.Start();
@@ -200,7 +213,7 @@ namespace IntroForm
             lgbrush.GradientStops.Add(transparent);
             image2.OpacityMask = lgbrush;
             border2.OpacityMask = lgbrush;
-            timer = new DispatcherTimer();
+            timer = new DispatcherTimer(DispatcherPriority.Render);
             timer.Interval = TimeSpan.FromMilliseconds(10);
             timer.Tick += timerTickWipe;
             timer.Start();
@@ -209,7 +222,6 @@ namespace IntroForm
         private void timerTickNone(object? sender, EventArgs e)
         {
             currentMs += 10;
-            //btnPlay.Content = currentMs.ToString();
             if (timer != null)
             {
                 if(currentMs >= currentSlide.SlideDuration || this.sshow.IsAutomatic == false)
@@ -226,6 +238,14 @@ namespace IntroForm
                         slideNum += 1;
                         doStoryBoard(this.sshow.Slides[slideNum], this.sshow.Slides[slideNum + 1]);
                     }
+                    else
+                    {
+                        if(audioPlayer!= null)
+                        {
+                            audioPlayer.Stop();
+                            audioPlayer = null;
+                        }
+                    }
                 }
             }
         }
@@ -234,8 +254,7 @@ namespace IntroForm
         {
             currentMs += 10;
 
-
-            if(timer != null)
+            if (timer != null)
             {
                 if (currentMs >= currentSlide.SlideDuration || this.sshow.IsAutomatic == false)
                 {
@@ -250,7 +269,7 @@ namespace IntroForm
                     image2.ApplyAnimationClock(Image.OpacityProperty, clock2);
                     border1.ApplyAnimationClock(Border.OpacityProperty, clock3);
                     border2.ApplyAnimationClock(Border.OpacityProperty, clock4);
-                    transitionTimer = new DispatcherTimer();
+                    transitionTimer = new DispatcherTimer(DispatcherPriority.Render);
                     transitionTimer.Interval = TimeSpan.FromMilliseconds(10);
                     transitionTimer.Tick += timerTickTransition;
                     transitionTimer.Start();
@@ -277,7 +296,7 @@ namespace IntroForm
                     border2.OpacityMask = lgbrush;
                     //BlackImage.ApplyAnimationClock(GradientStop.OffsetProperty, clock3);
                     //TransparentImage.ApplyAnimationClock(GradientStop.OffsetProperty, clock4);
-                    transitionTimer = new DispatcherTimer();
+                    transitionTimer = new DispatcherTimer(DispatcherPriority.Render);
                     transitionTimer.Interval = TimeSpan.FromMilliseconds(10);
                     transitionTimer.Tick += timerTickTransition;
                     transitionTimer.Start();
@@ -288,10 +307,6 @@ namespace IntroForm
         private void timerTickTransition(object? sender, EventArgs e)
         {
             currentTMs += 10;
-            if(currentTMs > 500)
-            {
-                String test = "";
-            }
 
             if(transitionTimer != null && currentTMs >= currentSlide.TransitionDuration)
             {
@@ -305,6 +320,47 @@ namespace IntroForm
                     slideNum += 1;
                     doStoryBoard(this.sshow.Slides[slideNum], this.sshow.Slides[slideNum + 1]);
                 }
+                else
+                {
+                    timer = new DispatcherTimer(DispatcherPriority.Render);
+                    timer.Interval = TimeSpan.FromMilliseconds(10);
+                    timer.Tick += timerTickEnd;
+                    timer.Start();
+                }
+            }
+        }
+
+        private void timerTickEnd(object? sender, EventArgs e)
+        {
+            currentMs += 10;
+            if(timer != null)
+            {
+                if (currentMs >= (currentSlide.SlideDuration + currentSlide.TransitionDuration))
+                {
+                    timer.Stop();
+                    timer = null;
+                    if(audioPlayer!= null)
+                    {
+                        audioPlayer.Stop();
+                        audioPlayer = null;
+                    }
+                }
+            }
+        }
+
+        private void trackOver(object? sender, EventArgs e)
+        {
+            audioNum += 1;
+            if(this.sshow.SoundTracks.Count > audioNum) 
+            {
+                audioPlayer = new MediaElement();
+                String audioPath = System.IO.Path.Combine(this.sshow.SoundTracks[audioNum].FolderPath, this.sshow.SoundTracks[audioNum].Name);
+                audioPlayer.Source = new Uri(audioPath);
+                AudioGrid.Children.Add(audioPlayer);
+                audioPlayer.MediaEnded += trackOver;
+                audioPlayer.LoadedBehavior = MediaState.Manual;
+                audioPlayer.UnloadedBehavior = MediaState.Manual;
+                audioPlayer.Play();
             }
         }
 
@@ -364,6 +420,10 @@ namespace IntroForm
             {
                 transitionTimer.Stop();
             }
+            if(audioPlayer != null)
+            {
+                audioPlayer.Pause();
+            }
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -391,6 +451,10 @@ namespace IntroForm
             if(transitionTimer != null)
             {
                 transitionTimer.Start();
+            }
+            if(audioPlayer != null)
+            {
+                audioPlayer.Play();
             }
         }
 
