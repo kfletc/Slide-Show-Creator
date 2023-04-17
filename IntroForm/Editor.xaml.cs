@@ -236,7 +236,7 @@ namespace IntroForm
             this.sshow.saveSlideShow();
 
             this.Hide();
-            Viewer newViewer = new Viewer();
+            Viewer newViewer = new Viewer(this.sshow);
             newViewer.Show();
         }
 
@@ -266,6 +266,7 @@ namespace IntroForm
                     String dest = System.IO.Path.Combine(tempDir, System.IO.Path.GetFileName(file));
                     System.IO.File.Copy(file, dest, true);
                     SlideImage image = new SlideImage(System.IO.Path.GetFileName(file), tempDir);
+                    image.loadBitmap();
                     this.sshow.addImage(image);
                 }
 
@@ -355,8 +356,6 @@ namespace IntroForm
                 player.MediaOpened += playerAudioOpened;
             }
         }
-
-
 
         private void updateAudioTracks()
         {

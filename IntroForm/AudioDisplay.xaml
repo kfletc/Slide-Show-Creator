@@ -7,8 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border x:Name="AudioBorder" Width="75" Height="75" BorderBrush="LightGray" BorderThickness="1" Margin="5 5 5 5">
-
+        <Border x:Name="AudioBorder" Width="75" Height="75" BorderBrush="LightGray" BorderThickness="1" Margin="5 15 5 5">
         </Border>
         <Label x:Name="AudioLabel" Target="{Binding}"/>
 
