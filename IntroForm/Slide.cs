@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace IntroForm
@@ -18,9 +19,9 @@ namespace IntroForm
             CrossFade
         }
 
-        private SlideImage image;
+        private SlideImage? image;
 
-        public SlideImage Image
+        public SlideImage? Image
         {
             get { return image; }
             set { image = value; }
@@ -34,9 +35,9 @@ namespace IntroForm
             set { slideDuration = value; }
         }
 
-        private TransitionType transition;
+        private TransitionType? transition;
 
-        public TransitionType Transition
+        public TransitionType? Transition
         {
             get { return transition; }
             set { transition = value; }
@@ -49,13 +50,24 @@ namespace IntroForm
             get { return transitionDuration; }
             set { transitionDuration = value; }
         }
-        
-        public Slide(SlideImage image, int slideDuration=3000, TransitionType transitionType=TransitionType.None, int transitionDuration=1000)
+
+        public Slide(SlideImage image)
         {
-            this.image = image;
-            this.slideDuration = slideDuration;
-            this.transition = transitionType;
-            this.transitionDuration = transitionDuration;
+            Image = image;
+            SlideDuration = 3000;
+            Transition = TransitionType.None;
+            TransitionDuration = 1000;
+        }
+
+        [JsonConstructor]
+        public Slide() { }
+
+        public Slide(SlideImage image, int slideDuration, TransitionType transition, int transitionDuration)
+        {
+            Image = image;
+            SlideDuration = slideDuration;
+            Transition = transition;
+            TransitionDuration = transitionDuration;
         }
     }
 }

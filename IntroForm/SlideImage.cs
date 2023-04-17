@@ -11,26 +11,26 @@ namespace IntroForm
 {
     public class SlideImage
     {
-        private String fileName;
+        private String? fileName;
 
-        public String FileName
+        public String? FileName
         {
             get { return fileName; }
             set { fileName = value; }
         }
 
-        private String folderPath;
+        private String? folderPath;
 
-        public String FolderPath
+        public String? FolderPath
         {
             get { return folderPath; }
             set { folderPath = value; }
         }
 
-        private BitmapImage bitmapImage;
+        private BitmapImage? bitmapImage;
 
         [JsonIgnore]
-        public BitmapImage BitmapImage
+        public BitmapImage? BitmapImage
         {
             get { return bitmapImage; }
         }
@@ -39,8 +39,10 @@ namespace IntroForm
         {
             this.FileName = fileName;
             this.FolderPath = folderPath;
-            loadBitmap();
         }
+
+        [JsonConstructor]
+        public SlideImage() { }
 
         public void loadBitmapSize(int size, bool byWidth)
         {
@@ -57,12 +59,15 @@ namespace IntroForm
 
         public void loadBitmap()
         {
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri(System.IO.Path.Combine(folderPath, fileName));
-            bitmapImage.CacheOption = BitmapCacheOption.OnLoad; 
-            bitmapImage.EndInit();
-            this.bitmapImage = bitmapImage;
+            if(folderPath != null && fileName != null) 
+            {
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri(System.IO.Path.Combine(folderPath, fileName));
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+                this.bitmapImage = bitmapImage;
+            }
         }
 
         public void updateFolder(String folder)

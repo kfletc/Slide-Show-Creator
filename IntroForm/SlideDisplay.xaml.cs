@@ -105,7 +105,8 @@ namespace IntroForm
         public void select()
         {
             ImageBorder.BorderThickness = new Thickness(2);
-            ImageBorder.BorderBrush = Brushes.Red;
+            BrushConverter converter = new BrushConverter();
+            ImageBorder.BorderBrush = (Brush?)converter.ConvertFrom("#DA34AE");
         }
 
         public void unselect()

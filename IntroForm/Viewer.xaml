@@ -202,13 +202,8 @@
                         </Button>
                     </Grid>
 
-                    <Grid Grid.Column="1">
-                        <Border BorderBrush ="LightGray" BorderThickness="0" Margin="5 5 5 5">
-                            <Image>
-                                
-
-                            </Image>
-                        </Border>
+                    <Grid x:Name="ImgGrid" Grid.Column="1">
+                        
                     </Grid>
 
                     <Grid Grid.Column="2">

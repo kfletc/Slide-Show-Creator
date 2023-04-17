@@ -48,10 +48,12 @@ namespace IntroForm
             length.Milliseconds);
             contentString += lengthString;
             AudioLabel.Foreground = Brushes.White;
-            AudioLabel.VerticalAlignment = VerticalAlignment.Bottom;
+            AudioLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            AudioLabel.Margin = new Thickness(0, 90, 0, 0);
             AudioLabel.DataContext = audioImage;
             AudioLabel.Content = contentString;
             AudioBorder.Child = audioImage;
+            AudioBorder.VerticalAlignment = VerticalAlignment.Top;
             
         }
     }

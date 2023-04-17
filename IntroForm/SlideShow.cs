@@ -6,8 +6,8 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Security.AccessControl;
 
 namespace IntroForm
 {
@@ -26,11 +26,13 @@ namespace IntroForm
         public ObservableCollection<Slide> Slides
         {
             get { return slides; }
+            set { slides = value; }
         }
 
-        private Slide selectedSlide;
+        private Slide? selectedSlide;
 
-        public Slide SelectedSlide
+        [JsonIgnore]
+        public Slide? SelectedSlide
         {
             get { return selectedSlide; }
             set { selectedSlide = value; }
@@ -38,9 +40,11 @@ namespace IntroForm
 
         private ObservableCollection<SlideImage> images;
 
+        [JsonIgnore]
         public ObservableCollection<SlideImage> Images
         {
             get { return images; }
+            set { images = value; }
         }
 
         private ObservableCollection<SoundTrack> soundTracks;
@@ -48,11 +52,13 @@ namespace IntroForm
         public ObservableCollection<SoundTrack> SoundTracks
         {
             get { return soundTracks; } 
+            set { soundTracks = value; }
         }
 
-        private SoundTrack selectedSoundTrack;
+        private SoundTrack? selectedSoundTrack;
 
-        public SoundTrack SelectedSoundTrack
+        [JsonIgnore]
+        public SoundTrack? SelectedSoundTrack
         {
             get { return selectedSoundTrack; }
             set { selectedSoundTrack = value; }
@@ -73,6 +79,7 @@ namespace IntroForm
             this.slides = new ObservableCollection<Slide>();
             this.images = new ObservableCollection<SlideImage>();
             this.soundTracks = new ObservableCollection<SoundTrack>();
+            this.isAutomatic = true;
 
             String baseDir = @"C:\ProgramData\SlideShowCreator\.temp";
             String dir = System.IO.Path.Combine(baseDir, this.name);
@@ -90,6 +97,15 @@ namespace IntroForm
             {
                 Directory.CreateDirectory(audioDir);
             }
+        }
+
+        [JsonConstructor]
+        public SlideShow(string name, ObservableCollection<Slide> slides, ObservableCollection<SoundTrack> soundTracks, bool isAutomatic)
+        {
+            Name = name;
+            Slides = slides;
+            SoundTracks = soundTracks;
+            IsAutomatic = isAutomatic;
         }
 
         public void resetSlides()
