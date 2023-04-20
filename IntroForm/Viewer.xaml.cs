@@ -180,24 +180,14 @@ namespace IntroForm
         {
             animation1 = new DoubleAnimation();
             animation2 = new DoubleAnimation();
-            animation3 = new DoubleAnimation();
-            animation4 = new DoubleAnimation();
             animation1.BeginTime = new TimeSpan(0);
-            animation2.BeginTime = new TimeSpan(0);
-            animation3.BeginTime = new TimeSpan(0);
-            animation4.BeginTime = new TimeSpan(0);
+            animation2.BeginTime = new TimeSpan(0);;
             animation1.Duration = TimeSpan.FromMilliseconds(currentSlide.TransitionDuration);
             animation2.Duration = TimeSpan.FromMilliseconds(currentSlide.TransitionDuration);
-            animation3.Duration = TimeSpan.FromMilliseconds(currentSlide.TransitionDuration);
-            animation4.Duration = TimeSpan.FromMilliseconds(currentSlide.TransitionDuration);
             animation1.From = 0;
             animation2.From = 0;
-            animation3.From = 0;
-            animation4.From = 0;
             animation1.To = 1;
             animation2.To = 1;
-            animation3.To = 1;
-            animation4.To = 1;
             System.Windows.Point startPoint = new System.Windows.Point(startPoint1, startPoint2);
             System.Windows.Point endPoint = new System.Windows.Point(endPoint1, endPoint2);
             lgbrush = new LinearGradientBrush();
@@ -238,13 +228,12 @@ namespace IntroForm
                         slideNum += 1;
                         doStoryBoard(this.sshow.Slides[slideNum], this.sshow.Slides[slideNum + 1]);
                     }
-                    else
+                    else if (this.sshow.IsAutomatic == true)
                     {
-                        if(audioPlayer!= null)
-                        {
-                            audioPlayer.Stop();
-                            audioPlayer = null;
-                        }
+                        timer = new DispatcherTimer(DispatcherPriority.Render);
+                        timer.Interval = TimeSpan.FromMilliseconds(10);
+                        timer.Tick += timerTickEnd;
+                        timer.Start();
                     }
                 }
             }
@@ -288,8 +277,6 @@ namespace IntroForm
                     currentMs = 0;
                     clock1 = animation1.CreateClock();
                     clock2 = animation2.CreateClock();
-                    clock3 = animation3.CreateClock();
-                    clock4 = animation4.CreateClock();
                     lgbrush.GradientStops[0].ApplyAnimationClock(GradientStop.OffsetProperty, clock1);
                     lgbrush.GradientStops[1].ApplyAnimationClock(GradientStop.OffsetProperty, clock2);
                     image2.OpacityMask = lgbrush;
@@ -320,7 +307,7 @@ namespace IntroForm
                     slideNum += 1;
                     doStoryBoard(this.sshow.Slides[slideNum], this.sshow.Slides[slideNum + 1]);
                 }
-                else
+                else if (this.sshow.IsAutomatic == true)
                 {
                     timer = new DispatcherTimer(DispatcherPriority.Render);
                     timer.Interval = TimeSpan.FromMilliseconds(10);
@@ -460,7 +447,6 @@ namespace IntroForm
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            btnPlay.Content = slideNum.ToString();
             if(slideNum > 0)
             {
                 doStoryBoard(this.sshow.Slides[slideNum], this.sshow.Slides[slideNum - 1]);
@@ -475,7 +461,6 @@ namespace IntroForm
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            btnPlay.Content = slideNum.ToString();
             if(this.sshow.Slides.Count > slideNum + 1)
             {
                 slideNum += 1;
