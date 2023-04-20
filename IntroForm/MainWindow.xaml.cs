@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,18 @@ namespace IntroForm
             if(!Directory.Exists(showDir))
             {
                 Directory.CreateDirectory(showDir);
+            }
+            String resourceDir = System.IO.Path.Combine(baseDir, @"Resources");
+            if (!Directory.Exists(resourceDir))
+            {
+                Directory.CreateDirectory(resourceDir);
+                string imagePath = @"Resources\audioThumbnail.jpg";
+                string dest = System.IO.Path.Combine(resourceDir, "audioThumbnail.jpg");
+                System.IO.File.Copy(imagePath, dest);
+                imagePath = @"Resources\Photo_slideshow.png";
+                dest = System.IO.Path.Combine(resourceDir, "Photo_slideshow.png");
+                System.IO.File.Copy(imagePath, dest);
+
             }
             InitializeComponent();
         }

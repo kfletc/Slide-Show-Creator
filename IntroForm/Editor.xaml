@@ -420,13 +420,20 @@
                                                          PreviewTextInput="NumberValidationTextBox"
                                                          TextChanged="tbSetTransitionLength"
                                                          Margin="5 5 5 5"
-                                                         Width="75"
+                                                         Width="63"
                                                          Foreground="LightGray"
                                                          FontSize="13"
                                                          FontFamily="Montserrat"
                                                          Background="#DA34AE"
                                                          VerticalContentAlignment="Center"
                                                          HorizontalContentAlignment="Center"/>
+                                                <TextBlock Text="ms"
+                                                           Foreground="LightGray"
+                                                           FontSize="13"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
 
@@ -443,13 +450,20 @@
                                                          TextChanged="tbSetImageLength"
                                                          PreviewTextInput="NumberValidationTextBox"
                                                          Margin="5 5 5 5"
-                                                         Width="75"
+                                                         Width="63"
                                                          Foreground="LightGray"
                                                          FontSize="13"
                                                          FontFamily="Montserrat"
                                                          Background="#DA34AE"
                                                          VerticalContentAlignment="Center"
                                                          HorizontalContentAlignment="Center"/>
+                                                <TextBlock Text="ms"
+                                                           Foreground="LightGray"
+                                                           FontSize="13"
+                                                           FontWeight="Medium"
+                                                           FontFamily="Montserrat"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
 
